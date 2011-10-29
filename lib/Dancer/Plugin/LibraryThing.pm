@@ -13,11 +13,11 @@ Dancer::Plugin::LibraryThing - Plugin for LibraryThing APIs.
 
 =head1 VERSION
 
-Version 0.0001
+Version 0.0002
 
 =cut
 
-our $VERSION = '0.0001';
+our $VERSION = '0.0002';
 
 my $lt_object;
 
