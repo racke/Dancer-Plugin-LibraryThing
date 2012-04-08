@@ -13,13 +13,13 @@ Dancer::Plugin::LibraryThing - Plugin for LibraryThing APIs.
 
 =head1 VERSION
 
-Version 0.0002
+Version 0.0003
 
 =cut
 
-our $VERSION = '0.0002';
+our $VERSION = '0.0003';
 
-my $lt_object;
+my %lt_object;
 
 =head1 SYNOPSIS
 
@@ -64,18 +64,29 @@ Size defaults to medium.
 Requests a cover from LibraryThing and stores it in the
 directory set in the configuration.
 
+First (mandatory) parameter is the ISBN-10 number. Optional
+parameters can be given as hash (directory and size), defaults
+are given in the configuration.
+
 =cut
 
 register librarything_cover => sub {
-    my $isbn = shift;
+    my ($isbn, %arg) = @_;
 
-    unless ($lt_object) {
-	$lt_object = WWW::LibraryThing::Covers->new(api_key => plugin_setting->{api_key},
-	    directory => plugin_setting->{directory},
-	    size => plugin_setting->{size});
+    my $directory = $arg{directory} || plugin_setting->{directory};
+    my $size      = $arg{size}      || plugin_setting->{size};
+
+    my $key = $size . "\t" . $directory;
+
+    unless ($lt_object{$key}) {
+        $lt_object{$key} = WWW::LibraryThing::Covers->new(
+            api_key   => plugin_setting->{api_key},
+            directory => $directory,
+            size      => $size
+        );
     }
 
-    $lt_object->get($isbn);
+    $lt_object{$key}->get($isbn);
 };
 
 register_plugin;
