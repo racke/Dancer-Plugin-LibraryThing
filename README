@@ -2,7 +2,7 @@ NAME
     Dancer::Plugin::LibraryThing - Plugin for LibraryThing APIs.
 
 VERSION
-    Version 0.0002
+    Version 0.0003
 
 SYNOPSIS
         use Dancer::Plugin::LibraryThing;
@@ -41,6 +41,10 @@ FUNCTIONS
   librarything_cover
     Requests a cover from LibraryThing and stores it in the directory set in
     the configuration.
+
+    First (mandatory) parameter is the ISBN-10 number. Optional parameters
+    can be given as hash (directory and size), defaults are given in the
+    configuration.
 
 AUTHOR
     Stefan Hornburg (Racke), `<racke at linuxia.de>'
